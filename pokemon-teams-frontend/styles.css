@@ -2,7 +2,11 @@ body {
     margin: 0;
     padding: 0;
   }
-  
+  .hidden{
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+
+  }
   header {
     background-color: #4caf50;
     margin: 0 auto;
