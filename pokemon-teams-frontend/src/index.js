@@ -3,7 +3,7 @@ const TRAINERS_URL = `${BASE_URL}/trainers`
 const POKEMONS_URL = `${BASE_URL}/pokemons`
 const main = document.querySelector('main')
 function renderTrainer(trainer) {
-  // debugger;
+
   const div = document.createElement('div')
   div.className = 'card'
   div.dataset.id = trainer.id
@@ -13,18 +13,6 @@ function renderTrainer(trainer) {
     <ul>
     </ul>
   `
-  div.addEventListener('click', e => {
-    if (e.target.className === "release" ) {
-      releasePokemon(e.target.dataset.pokemonId)
-      e.target.parentElement.remove()
-    }
-
-    if (e.target.dataset.trainerId) {
-      let id = e.target.dataset.trainerId
-      addNewPokemon(id)
-    }
-  })
-
   main.appendChild(div)
 }
 
@@ -40,11 +28,30 @@ function addNewPokemon(id) {
 
   fetch(`${POKEMONS_URL}`, options)
   .then(resp => resp.json())
-  .then(addPokemonHtml)
+  .then(addNewPokeHtml)
 }
+
+main.addEventListener('click', e => {
+  e.preventDefault()
+  if (e.target.className === "release" ) {
+    releasePokemon(e.target.dataset.pokemonId)
+    e.target.parentElement.remove()
+  }
+
+  if (e.target.dataset.trainerId) {
+    let id = parseInt(e.target.dataset.trainerId)
+    addNewPokemon(id)
+  }
+})
 
 function addPokemonHtml(pokemon) {
   return `
+  <li>${pokemon.nickname} (${pokemon.species}) <button class="release" data-pokemon-id=${pokemon.id}>Release</button></li>
+  `
+}
+function addNewPokeHtml(pokemon) {
+  let ulp = document.querySelector(`div[data-id="${pokemon.trainer_id}"] ul`)  
+  ulp.innerHTML += `
   <li>${pokemon.nickname} (${pokemon.species}) <button class="release" data-pokemon-id=${pokemon.id}>Release</button></li>
   `
 }
@@ -74,19 +81,18 @@ function addPokemon(pokemons) {
 }
 
 function releasePokemon(id) {
-
+  // debugger
   const params = {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        },
-       body: JSON.stringify({pokemon_id: id})
+        }
+       // body: JSON.stringify({pokemon_id: id})
     }
    fetch(`${POKEMONS_URL}/${id}/`,params)
-   .then(resp => {return resp.json()})
-   .then(json => console.log(json.resp))
-   .catch(console.log('error'))
+   .then(resp => resp.json())
+   .then(console.log)
 }
 
 
