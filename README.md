@@ -1,6 +1,6 @@
 # Pokemon Teams Project
 
-## Learning Goals
+### Learning Goals
 
 - Combine both a JavaScript frontend with an API-Only build of Rails
 
@@ -60,7 +60,7 @@ build, add the following gem to the Gemfile:
 gem 'faker'
 ```
 
-While we are in the Gemfile, uncomment `gem 'rack-cors'`, then run 
+While we are in the Gemfile, uncomment `gem 'rack-cors'`, then run
 `bundle install`. If you recall, `rack-cors` is necessary for cross-origin
 resource sharing. To get rack-cors working, once the gem is installed, uncomment
 the following code in `config/initializers/cors.rb`:
